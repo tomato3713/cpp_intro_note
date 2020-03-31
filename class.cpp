@@ -27,23 +27,29 @@ struct class_name {
 // 下記のように記述することで class_name a, b; class_name c = a + b;
 // が実行できるようになる。
 // Ex: +
-class_name operator +(class_name const &l, class_name const &r) {
+class_name operator+(class_name const &l, class_name const &r) {
   return class_name{l.x + r.x, l.y + r.y};
 }
 
 // 単項演算子の場合
 // class_name a; +a;
-class_name operator +(class_name const &obj) { return class_name{+obj.x}; }
+class_name operator+(class_name const &obj) { return class_name{+obj.x}; }
 
 // 前置のインクリメント・デクリメント
-class_name operator ++(class_name &obj) {
-    ++obj.x;
-    return obj;
+class_name operator++(class_name &obj) {
+  ++obj.x;
+  return obj;
 }
 // ただし、後置のインクリメント・デクリメントの場合は特殊な書き方を行う。
 // 2つめのint型引数は、ダミーで前置と後置演算子を区別するため以外の意味は無い。
-class_name operator ++(class_name &obj, int) {
-    auto temp = obj;
-    ++obj.x;
-    return temp;
+class_name operator++(class_name &obj, int) {
+  auto temp = obj;
+  ++obj.x;
+  return temp;
+}
+
+// 演算子のオーバーロードは、メンバー関数としてもかける
+// S a, b; a + b;
+struct S {
+  S operator+(S const &right) { return S{}; }
 }
